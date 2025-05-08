@@ -1,0 +1,19 @@
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Archivos de compilación y binarios
+bin/
+obj/
+
+# Archivos específicos de Windows
+Thumbs.db
+ehthumbs.db
+
+# Otros archivos temporales comunes
+*.log
+*.swp
