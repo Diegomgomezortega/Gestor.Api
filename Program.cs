@@ -14,6 +14,17 @@ builder.Services.AddApplicationServices();
 builder.Services.AddDbContext<GestorContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("GestorConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,6 +35,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
 app.RegisterEndpointDefinitions();
 
