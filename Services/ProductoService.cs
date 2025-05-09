@@ -13,18 +13,18 @@ namespace Gestor.API.Services
         {
             _context = context;
         }
-        public async Task<int> CreateProductAsync(AddProductRequest request)
+        public async Task<int> CreateProductAsync(AddProductRequest request, CancellationToken cancellationToken)
         {
             var producto = request.ConvertToEntity();
             // Añadimos el producto al contexto
             _context.Productos.Add(producto);
             // Guardamos los cambios
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             return producto.IdProducto; 
         }
-        public async Task<GetProductResponse> GetProductByIdAsync(int id)
+        public async Task<GetProductResponse> GetProductByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var entity= await _context.Productos.Include(p=>p.Categoria).FirstOrDefaultAsync(p => p.IdProducto == id);
+            var entity= await _context.Productos.Include(p=>p.Categoria).FirstOrDefaultAsync(p => p.IdProducto == id,cancellationToken);
             if (entity == null)
             {
                 return null;
@@ -32,15 +32,15 @@ namespace Gestor.API.Services
             var response = GetProductResponse.ConvertFromEntity(entity);
             return response;
         }
-        public async Task<List<GetProductResponse>> GetAllProductsAsync()
+        public async Task<List<GetProductResponse>> GetAllProductsAsync(CancellationToken cancellationToken)
         {
-            var entities= await _context.Productos.Include(p=>p.Categoria).ToListAsync();
+            var entities= await _context.Productos.Include(p=>p.Categoria).ToListAsync(cancellationToken);
             var response = entities.Select(e => GetProductResponse.ConvertFromEntity(e));
             return response.ToList();
         }
-        public async Task<int> UpdateProductAsync(int id, UpdateProductoRequest updatedProduct)
+        public async Task<int> UpdateProductAsync(int id, UpdateProductoRequest updatedProduct, CancellationToken cancellationToken)
         {
-            var entity = await _context.Productos.FindAsync(id); 
+            var entity = await _context.Productos.FindAsync(id,cancellationToken); 
             if (entity == null)
             {
                 return 0;  //Si no existe la entidad, retorno 0
@@ -53,19 +53,19 @@ namespace Gestor.API.Services
             entity.PaisFabricacion = updatedProduct.PaisFabricacion;
             entity.IdCategoria = updatedProduct.IdCategoria;
 
-            var result =await _context.SaveChangesAsync();
+            var result =await _context.SaveChangesAsync(cancellationToken);
             return result; //Retorno 1 si la entity fue modificada
         }
-        public async Task<bool> DeleteProductAsync(int id)
+        public async Task<bool> DeleteProductAsync(int id,CancellationToken cancellationToken)
         {
-            var entity = await _context.Productos.FindAsync(id);
+            var entity = await _context.Productos.FindAsync(id, cancellationToken);
             if (entity == null)
             {
                 return false; // Si no se encuentra, devolvemos false
             }
 
             _context.Productos.Remove(entity); // Eliminamos el producto
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
     }

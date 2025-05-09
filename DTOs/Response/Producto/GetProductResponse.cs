@@ -11,6 +11,7 @@ namespace Gestor.API.DTOs.Response.Producto
         public string Categoria { get; set; } = null!;
         public decimal Precio { get; set; }
         public string PaisFabricacion { get; set; } = null!;
+        public int IdCategoria { get; set; }
 
         public static GetProductResponse ConvertFromEntity(Models.Producto producto)
         {
@@ -21,7 +22,9 @@ namespace Gestor.API.DTOs.Response.Producto
                 Precio= producto.Precio,
                 Descripcion= producto.Descripcion,
                 Categoria= producto.Categoria.Nombre,
-                PaisFabricacion= producto.PaisFabricacion
+                PaisFabricacion= producto.PaisFabricacion,
+                IdCategoria=producto.IdCategoria
+                
             };
         }
     }
