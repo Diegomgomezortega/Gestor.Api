@@ -21,4 +21,8 @@ API RESTful para la gestión de productos y categorías.
 1. Clonar el repositorio:
   
    git clone https://github.com/Diegomgomezortega/Gestor.Api.git
+
+2. Creación de base de datos y registros
+   
+  Gestor.API/Data/scripts.txt
   

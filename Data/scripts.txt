@@ -1,0 +1,41 @@
+﻿
+CREATE DATABASE Gestor;
+GO
+
+USE Gestor;
+GO
+
+
+CREATE TABLE Categoria (
+    IdCategoria INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100) NOT NULL,
+    Descripcion NVARCHAR(255) NULL  
+);
+
+
+CREATE TABLE Producto (
+    IdProducto INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100) NOT NULL,
+    Descripcion NVARCHAR(255) NULL, 
+    Precio DECIMAL(18,2) NOT NULL,
+    IdCategoria INT NOT NULL,
+    PaisFabricacion NVARCHAR(50) NOT NULL,
+    FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria)
+);
+
+--Creacion de registros aleatorios
+USE Gestor;
+
+
+INSERT INTO Categoria (Nombre, Descripcion) VALUES
+('Electrónica', 'Dispositivos electrónicos de consumo'),
+('Ropa', 'Prendas de vestir para todas las edades'),
+('Alimentos', NULL); 
+
+INSERT INTO Producto (Nombre, Descripcion, Precio, IdCategoria, PaisFabricacion) VALUES
+('Smartphone X', 'Teléfono inteligente con pantalla AMOLED', 899.99, 1, 'Corea del Sur'),
+('Auriculares Bluetooth', NULL, 199.50, 1, 'China'),
+('Camiseta Deportiva', 'Tela liviana y transpirable', 35.00, 2, 'Bangladesh'),
+('Pantalón de Jean', NULL, 50.00, 2, 'Vietnam'),
+('Paquete de Arroz', 'Arroz blanco de grano largo 1kg', 3.80, 3, 'Argentina'),
+('Botella de Aceite', NULL, 6.20, 3, 'Brasil');
